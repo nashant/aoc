@@ -10,7 +10,4 @@ with open('input.txt', 'r') as fd:
     taken = [(l[0:-3], l[-3:]) for l in fd.read().split('\n') if l]
     takenIds = sorted([int(binSub(r, 'F', 'B'), 2) * 8 + int(binSub(c, 'L', 'R'), 2) for r, c in taken])
     print(takenIds[-1])
-    for i in range(len(takenIds)):
-        if takenIds[i + 1] - takenIds[i] == 2:
-            print(takenIds[i] + 1)
-            exit()
+    print(set(range(takenIds[0], takenIds[-1] - takenIds[0])) - set(takenIds))
