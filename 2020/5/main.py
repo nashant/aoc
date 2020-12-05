@@ -1,13 +1,8 @@
-from itertools import product
-def binSub(binString, zero, one, reverse=False):
-    if reverse:
-        return binString.replace('0', zero).replace('1', one)
-    return binString.replace(zero, '0').replace(one, '1')
+from re import sub
+def binSub(binString):
+    return int(sub('[FL]', '0', sub('[BR]', '1', binString)), 2)
 
 with open('input.txt', 'r') as fd:
-    cols  = [binSub(f'{i:007b}', 'F', 'B', True) for i in range(127)]
-    rows  = [binSub(f'{i:003b}', 'L', 'R', True) for i in range(8)]
-    taken = [(l[0:-3], l[-3:]) for l in fd.read().split('\n') if l]
-    takenIds = sorted([int(binSub(r, 'F', 'B'), 2) * 8 + int(binSub(c, 'L', 'R'), 2) for r, c in taken])
+    takenIds = sorted([binSub(l) for l in fd.read().split('\n') if l])
     print(takenIds[-1])
     print(set(range(takenIds[0], takenIds[-1] - takenIds[0])) - set(takenIds))
